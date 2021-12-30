@@ -157,17 +157,6 @@ const memberList = useMemo(() => {
     if (!address) {
       return;
     }
-    if (error instanceof UnsupportedChainIdError ) {
-      return (
-        <div className="unsupported-network">
-          <h2>Please connect to Rinkeby</h2>
-          <p>
-            This dapp only works on the Rinkeby network, please switch networks
-            in your connected wallet.
-          </p>
-        </div>
-      );
-    }
     
     // Check if the user has the NFT by using bundleDropModule.balanceOf
     return bundleDropModule
@@ -187,6 +176,17 @@ const memberList = useMemo(() => {
         console.error("failed to nft balance", error);
       });
   }, [address]);
+  if (error instanceof UnsupportedChainIdError ) {
+    return (
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          This dapp only works on the Rinkeby network, please switch networks
+          in your connected wallet.
+        </p>
+      </div>
+    );
+  }
 
   const mintNft = () => {
     setIsClaiming(true);
