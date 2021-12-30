@@ -203,41 +203,33 @@ const memberList = useMemo(() => {
       </div>
     );
   }
-  const mintNft = () => {
-    setIsClaiming(true);
-    // Call bundleDropModule.claim("0", 1) to mint nft to user's wallet.
-    bundleDropModule
-    .claim("0", 1)
-    .then(() => {
-      // Set claim state.
-      setHasClaimedNFT(true);
-      // Show user their fancy new NFT!
-      console.log(
-        `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${bundleDropModule.address}/0`
-      );
-    })
-    .catch((err) => {
-      console.error("failed to claim", err);
-    })
-    .finally(() => {
-      // Stop loading state.
-      setIsClaiming(false);
-    });
+
+    const mintNft = () => {
+      setIsClaiming(true);
+      // Call bundleDropModule.claim("0", 1) to mint nft to user's wallet.
+      bundleDropModule
+      .claim("0", 1)
+      .then(() => {
+        // Set claim state.
+        setHasClaimedNFT(true);
+        // Show user their fancy new NFT!
+        console.log(
+          `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${bundleDropModule.address}/0`
+        );
+      })
+      .catch((err) => {
+        console.error("failed to claim", err);
+      })
+      .finally(() => {
+        // Stop loading state.
+        setIsClaiming(false);
+      });
+    
   
 
-  // Render mint nft screen.
-  return (
-    <div className="mint-nft">
-      <h1>Mint your free 🏖️DAO Membership NFT</h1>
-      <button
-        disabled={isClaiming}
-        onClick={() => mintNft()}
-      >
-        {isClaiming ? "Minting..." : "Mint your nft (FREE)"}
-      </button>
-    </div>
-  );
-  }
+    }
+  
+
 // If the user has already claimed their NFT we want to display the interal DAO page to them
 // only DAO members will see this. Render all the members + token amounts.
 if (hasClaimedNFT) {
@@ -399,10 +391,18 @@ if (hasClaimedNFT) {
   
   // This is the case where we have the user's address
   // which means they've connected their wallet to our site!
-  return (
-    <div className="landing">
-      <h1>👀 wallet connected, now what!</h1>
-    </div>);
+    // Render mint nft screen.
+    return (
+      <div className="mint-nft">
+        <h1>Mint your free 🏖️DAO Membership NFT</h1>
+        <button
+          disabled={isClaiming}
+          onClick={mintNft}
+        >
+          {isClaiming ? "Minting..." : "Mint your nft (FREE)"}
+        </button>
+      </div>
+    );
 };
 
 export default App;
