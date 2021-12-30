@@ -176,6 +176,7 @@ const memberList = useMemo(() => {
         console.error("failed to nft balance", error);
       });
   }, [address]);
+
   if (error instanceof UnsupportedChainIdError ) {
     return (
       <div className="unsupported-network">
@@ -188,6 +189,20 @@ const memberList = useMemo(() => {
     );
   }
 
+
+
+  // This is the case where the user hasn't connected their wallet
+  // to your web app. Let them call connectWallet.
+  if (!address) {
+    return (
+      <div className="landing">
+        <h1>Welcome to BeachDAO</h1>
+        <button onClick={() => connectWallet("injected")} className="btn-hero">
+          Connect your wallet
+        </button>
+      </div>
+    );
+  }
   const mintNft = () => {
     setIsClaiming(true);
     // Call bundleDropModule.claim("0", 1) to mint nft to user's wallet.
@@ -222,19 +237,6 @@ const memberList = useMemo(() => {
       </button>
     </div>
   );
-  }
-
-  // This is the case where the user hasn't connected their wallet
-  // to your web app. Let them call connectWallet.
-  if (!address) {
-    return (
-      <div className="landing">
-        <h1>Welcome to BeachDAO</h1>
-        <button onClick={() => connectWallet("injected")} className="btn-hero">
-          Connect your wallet
-        </button>
-      </div>
-    );
   }
 // If the user has already claimed their NFT we want to display the interal DAO page to them
 // only DAO members will see this. Render all the members + token amounts.
